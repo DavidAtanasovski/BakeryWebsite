@@ -1,0 +1,79 @@
+﻿@page
+@model Bakery.Pages.Bakeries.EditModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit/Add Food</h1>
+<form method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Food.Id" />
+    <input type="hidden" asp-for="Food.Photo" />
+    <div class="form-row">
+        <div class="form-group col-sm-6">
+            <label asp-for="Food.Name"></label>
+            <input class="form-control" asp-for="Food.Name" />
+            <span class="text-danger" asp-validation-for="Food.Name"></span>
+        </div>
+
+    </div>
+    <div class="form-row">
+        <div class="form-group col-sm-12">
+            <label asp-for="Food.Ingredients"></label>
+            <input class="form-control" asp-for="Food.Ingredients" />
+            <span class="text-danger" asp-validation-for="Food.Ingredients"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-sm-6">
+            <label asp-for="Food.Calories"></label>
+            <input class="form-control" asp-for="Food.Calories" />
+            <span class="text-danger" asp-validation-for="Food.Calories"></span>
+        </div>
+        <div class="form-group col-sm-6">
+            <label asp-for="Food.Price"></label>
+            <input class="form-control" asp-for="Food.Price" />
+            <span class="text-danger" asp-validation-for="Food.Price"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <label asp-for="Photo" class="col-sm-1"></label>
+        <div class="form-group col-sm-4">
+            <div class="custom-file">
+                <input type="file" onchange="return ValidatePhoto(this);" asp-for="Photo" />
+                <p id="invalidImg" class="text-danger"></p>
+
+            </div>
+
+        </div>
+    </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+
+
+        <script>
+            var _validFileExtensions = [".jpg", ".jpeg", ".gif", ".png"];
+            function ValidatePhoto(oInput) {
+                if (oInput.type == "file") {
+                    var sFileName = oInput.value;
+                    if (sFileName.length > 0) {
+                        var blnValid = false;
+                        for (var j = 0; j < _validFileExtensions.length; j++) {
+                            var sCurExtension = _validFileExtensions[j];
+                            if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                                $('#invalidImg').html("");
+                                blnValid = true;
+                                break;
+                            }
+                        }
+
+                        if (!blnValid) {
+                            $('#invalidImg').html("<p class='text-danger'>Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions.join(", ") + "</p>");
+                            oInput.value = "";
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+        </script>
+
+</form>

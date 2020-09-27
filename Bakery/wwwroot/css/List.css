@@ -1,0 +1,12 @@
+﻿body {
+    background-color:rgba(178, 145, 68, 0.59)
+}
+
+.image {
+    
+    float: left;
+    width: 250px;
+    height: 250px;
+    background-size: cover;
+
+}

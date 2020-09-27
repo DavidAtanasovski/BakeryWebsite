@@ -1,0 +1,100 @@
+﻿@page
+@model Bakery.Pages.Bakeries.ListModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@{
+    ViewData["Title"] = "List";
+}
+<link href="~/css/List.css" rel="stylesheet" type="text/css" />
+<h1>Food List</h1>
+
+<form method="get">
+    <div id="top" class="form-group">
+        <div class="input-group">
+            <input type="search" class="form-control" placeholder="search" asp-for="SearchTerm">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<div>
+    <p style="text-align:center; margin-top:30px; margin-bottom:30px; font-size:40px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">More than just a bakery!</p>
+</div>
+
+<div>
+    <p style=" margin-top:30px; margin-bottom:30px; font-size:30px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">Products</p>
+</div>
+<div class="form-row">
+
+    <div class="form-group col-sm-6">
+
+
+
+        <table>
+            @foreach (var food in Model.Foods)
+            {
+                var photoPath = "~/Photos/" + food.Photo;
+
+                <tr style="font-size:20px; text-align:center; font-family:Arial; font-style:italic; font-weight:bold;">
+
+                    <td>
+                        <img class="image" style="margin-bottom:20px; margin-top:30px;"  src="@photoPath" asp-append-version="true" />
+                    </td>
+                </tr>
+                <tr style="font-size:20px; text-align:center; font-family:Arial; font-style:italic; font-weight:bold;">
+                    <td>
+                        @food.Name ,
+                        @food.Price Den.
+                    </td>
+
+
+
+
+
+
+
+                    <td style=" text-align:left;">
+                        <a class="btn btn-outline-secondary" asp-page="./Detail" asp-route-foodId="@food.Id">
+                            <i class="fas fa-search-plus"></i>
+                        </a>
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <a class="btn btn-outline-secondary" asp-page="./Delete" asp-route-foodId="@food.Id">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                            <a class="btn btn-outline-secondary" asp-page="./Edit" asp-route-foodId="@food.Id">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        }
+
+
+                    </td>
+                </tr>
+
+            }
+        </table>
+    </div>
+    <div class="form-group col-sm-6">
+        <img  style="position:fixed; top:30%;   width:270px; height:auto;" src="~/Photos/BBoyFinalSalute_color2.png" />
+
+    </div>
+</div>
+
+
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+{ 
+    <a class="btn btn-primary" asp-page="./Edit">Add Food</a>
+}
+
+<footer style="margin-top:15%;">
+    <hr />
+    <p style="text-align:center; font-size:23px;">Contact:</p>
+    <p style=" font-size:16px;">Street: StreetName </p>
+    <p style="font-size:16px;">Email: Info@yahoo.com</p>
+    <p style="font-size:16px;">Phone: +01 249 538 492</p>
+</footer>
